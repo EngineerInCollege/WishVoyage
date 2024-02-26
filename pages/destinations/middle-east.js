@@ -15,7 +15,7 @@ const BackgroundImage = styled.div`
   position: relative;
   width: 100%;
   height: 60vh;
-  background-image: url("/asiabackgroundimage.jpg");
+  background-image: url("/middleeastbackgroundimage.jpg");
   background-size: cover;
   background-position: center;
 `;
@@ -88,8 +88,8 @@ export default function Asia() {
         <Navbar />
         <BackgroundImage>
           <OverlayText>
-            <LargeText>Asia</LargeText>
-            <SmallText>Explore the wonders of Asia</SmallText>
+            <LargeText>Middle East</LargeText>
+            <SmallText>Explore the wonders of the Middle East</SmallText>
           </OverlayText>
         </BackgroundImage>
         <MainContent>

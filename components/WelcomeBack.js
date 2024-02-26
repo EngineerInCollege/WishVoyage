@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { auth } from "../pages/firebase/firebaseConfig";
 
 // Sample data for recent places
 const recentPlacesData = [
@@ -36,28 +37,35 @@ const fadeInAnimation = keyframes`
 `;
 
 const WelcomeBackContainer = styled.div`
-  background-color: black;
+  background: linear-gradient(to bottom, #757171, #242323);
   color: white;
-  padding-top: 20vw;
-  padding-bottom: 20vw;
+  padding-top: 6vw;
+  padding-bottom: 10vw;
   padding-left: 10vw;
   padding-right: 10vw;
   opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
 `;
 
 const WelcomeBackText = styled.div`
-  font-size: 40px;
-  font-family: 'Arial';
+  font-size: 2vw;
+  color: white;
+  font-family: 'serif';
   white-space: nowrap;
   border-right: 2px solid transparent;
-  font-weight: bold;
   animation: ${({ isVisible }) => (isVisible ? fadeInAnimation : 'none')} 0.5s ease forwards;
 `;
 
+const Divider = styled.div`
+  width: 100%;
+  height: .1vw;
+  background-color: white;
+  margin-top: 1vw;
+`
+
 const AdditionalText = styled.p`
   padding-top: 2vw;
-  font-size: 25px;
-  font-family: 'Times';
+  font-size: 1vw;
+  font-family: 'arial';
   white-space: wrap;
   animation: ${({ isVisible }) => (isVisible ? fadeInAnimation : 'none')} 0.5s ease forwards;
 `;
@@ -67,10 +75,10 @@ const ItalicizedSpan = styled.span`
 `;
 
 const RecentPlacesText = styled.p`
-  padding-top: 10vw;
-  padding-bottom: 2vw;
+  padding-top: 8vw;
+  padding-bottom: 1vw;
   font-size: 30px;
-  font-family: 'Arial';
+  font-family: 'serif';
   white-space: wrap;
 `;
 
@@ -120,7 +128,7 @@ const RecentPlacesContainer = styled.div`
   margin-top: 2vw;
 `;
 
-const WelcomeBack = ({ isLoggedIn, userName }) => {
+const WelcomeBack = ({ user }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -137,14 +145,15 @@ const WelcomeBack = ({ isLoggedIn, userName }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  if (!isLoggedIn) {
+  if (!user) {
     return null;
   }
 
   return (
     <WelcomeBackContainer id="welcome-back" isVisible={isVisible}>
       <WelcomeBackText isVisible={isVisible}>
-        Welcome back, <ItalicizedSpan>{userName}</ItalicizedSpan>!
+        Welcome back, <ItalicizedSpan>{user.displayName}!</ItalicizedSpan>
+        <Divider></Divider>
       </WelcomeBackText>
       <AdditionalText isVisible={isVisible}>
         We've missed you. Feel free to jump back into your previous

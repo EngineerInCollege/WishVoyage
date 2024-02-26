@@ -2,6 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styled from 'styled-components';
+import React, { useState } from 'react';
 const inter = Inter({ subsets: ["latin"] });
 import Navbar from "@/components/Navbar";
 import Slogan from "@/components/Slogan";
@@ -9,6 +10,8 @@ import SearchBar from "@/components/SearchBar";
 import WelcomeBack from "@/components/WelcomeBack";
 import Suggested from "@/components/Suggested";
 import Footer from "@/components/Footer";
+import SuggestedCountries from "@/components/SuggestedCountries";
+import SignUp from "@/components/SignUp";
 
 const ParentContainer = styled.div`
   width: 100%;
@@ -40,8 +43,9 @@ const MainContent = styled.div`
 `;
 
 export default function Home() {
-  const isLoggedIn = true; // (Placeholder value, replace with user when i figure that out)
+  const isLoggedIn = true;
   const userName = "John Doe";
+  const [user, setUser] = useState(null);
 
   return (
     <>
@@ -52,7 +56,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ParentContainer>
-      <Navbar/>
+      <Navbar user={user} setUser={setUser}/>
         <BackgroundImage>
           <OverlayText>
             Travel the world with WishVoyage.
@@ -60,10 +64,11 @@ export default function Home() {
           </OverlayText>
         </BackgroundImage>
         <SearchBar/>
-        <WelcomeBack isLoggedIn={isLoggedIn} userName={userName} />
+        <WelcomeBack user={user} />
         <MainContent>
-          <Suggested>
-          </Suggested>
+          <Suggested></Suggested>
+          <SuggestedCountries></SuggestedCountries>
+          <SignUp></SignUp>
         </MainContent>
         <Footer></Footer>
       </ParentContainer>
