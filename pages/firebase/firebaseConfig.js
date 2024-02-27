@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, setPersistence } from "firebase/auth";
 import { getDatabase, ref, set } from "firebase/database";
 
 const firebaseConfig = {
@@ -16,16 +16,21 @@ const auth = getAuth(app);
 
 export { auth }; // Export only auth
 
-export function writeUserData(userId, name, email, recentSearch) {
+export async function writeUserData(userId, name, email, recentSearch) {
   const db = getDatabase();
   const reference = ref(db, 'users/' + userId);
 
-  // Check if items is an array before filtering
-  const filteredItems = Array.isArray(recentSearch) ? recentSearch.filter(recentSearch => recentSearch !== undefined) : [];
+  // Check if recentSearch is an array before filtering
+  const filteredRecentSearch = Array.isArray(recentSearch) ? recentSearch.filter(item => item !== undefined) : [];
 
-  set(reference, {
-    username: name,
-    email: email,
-    items: filteredItems
-  });
+  try {
+    await set(reference, {
+      username: name,
+      email: email,
+      recentSearch: filteredRecentSearch // Change items to recentSearch
+    });
+    console.log("Data saved successfully!");
+  } catch (error) {
+    console.error("Error saving data:", error);
+  }
 }

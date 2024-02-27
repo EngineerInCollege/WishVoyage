@@ -6,6 +6,7 @@ import WelcomeBack from "@/components/WelcomeBack";
 import Suggested from "@/components/Suggested";
 import Footer from "@/components/Footer";
 import News from "@/components/News";
+import React, { useState } from 'react';
 
 const PageContainer = styled.div`
   width: 100%;
@@ -15,7 +16,8 @@ const BackgroundImage = styled.div`
   position: relative;
   width: 100%;
   height: 60vh;
-  background-image: url("/backgrounds/asiabackgroundimage.jpg");
+  background-image: url("/backgrounds/africabackgroundimage.jpg");
+  background-attachment: fixed; 
   background-size: cover;
   background-position: center;
 `;
@@ -73,8 +75,7 @@ const temporaryNews = {
 
 
 export default function Asia() {
-  const isLoggedIn = true; // Placeholder value, replace with actual logic
-  const userName = "John Doe"; // Placeholder value, replace with actual user name
+  const [user, setUser] = useState(null);
 
   return (
     <>
@@ -85,18 +86,9 @@ export default function Asia() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageContainer>
-        <Navbar />
-        <BackgroundImage>
-          <OverlayText>
-            <LargeText>Asia</LargeText>
-            <SmallText>Explore the wonders of Asia</SmallText>
-          </OverlayText>
-        </BackgroundImage>
-        <MainContent>
-          <Suggested backgroundColor="white"/>
-          <News news="asia"></News>
-        </MainContent>
-        <Footer />
+        <Navbar user={user} setUser={setUser}/>
+       
+  
       </PageContainer>
     </>
   );
