@@ -174,19 +174,19 @@ const Navbar = ({user, setUser}) => {
     }
   };  
 
-  useEffect(() => {
-    // Check if user is signed in
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        // User is signed in, write user data
-        const { uid, displayName, email } = user;
-        await writeUserData(uid, displayName, email);
-      }
-    });
+  // useEffect(() => {
+  //   // Check if user is signed in
+  //   const unsubscribe = onAuthStateChanged(auth, async (user) => {
+  //     if (user) {
+  //       // User is signed in, write user data
+  //       const { uid, displayName, email } = user;
+  //       await writeUserData(uid, displayName, email);
+  //     }
+  //   });
   
-    // Clean up subscription
-    return () => unsubscribe();
-  }, []);  
+  //   // Clean up subscription
+  //   return () => unsubscribe();
+  // }, []);  
   
   const handleSignOut = async () => {
     try {

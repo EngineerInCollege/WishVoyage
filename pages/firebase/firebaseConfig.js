@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, setPersistence } from "firebase/auth";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, get } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-pZpSwQE57H4xx2AtAxMbs5RAD05Pr-k",
@@ -13,11 +13,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getDatabase();
 
 export { auth }; // Export only auth
 
 export async function writeUserData(userId, name, email, recentSearch) {
-  const db = getDatabase();
   const reference = ref(db, 'users/' + userId);
 
   // Check if recentSearch is an array before filtering
@@ -34,3 +34,19 @@ export async function writeUserData(userId, name, email, recentSearch) {
     console.error("Error saving data:", error);
   }
 }
+
+export const fetchRecentSearches = async (userId) => {
+  try {
+    const snapshot = await get(ref(db, `users/${userId}/recentSearches`));
+    if (snapshot.exists()) {
+      return snapshot.val();
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching recent searches:', error);
+    return null;
+  }
+};
+
+

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { auth, db } from '../pages/firebase/firebaseConfig';
+import { auth, db, fetchRecentSearches } from '../pages/firebase/firebaseConfig';
 import { getDatabase, ref, onValue } from "firebase/database";
 
 
@@ -107,7 +107,7 @@ const PlaceDescription = styled.p`
 
 const WelcomeBack = ({ user }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [recentPlaces, setRecentPlaces] = useState([]);
+  const [recentSearches, setRecentSearches] = useState([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -124,29 +124,18 @@ const WelcomeBack = ({ user }) => {
   }, []);
 
   useEffect(() => {
-    const fetchRecentPlaces = async () => {
-      const currentUser = auth.currentUser;
-      if (currentUser) {
-        const userId = currentUser.uid;
-        const db = getDatabase();
-        const recentPlacesRef = ref(db, `users/${userId}/recentPlaces`);
-
-        try {
-          const snapshot = await get(recentPlacesRef);
-          if (snapshot.exists()) {
-            const data = snapshot.val();
-            const placesArray = Object.values(data);
-            setRecentPlaces(placesArray.slice(-3)); // Limit to last 3 places
-          } else {
-            setRecentPlaces([]);
+    if (user) {
+      fetchRecentSearches(user.uid)
+        .then(recentSearchesData => {
+          if (recentSearchesData) {
+            // Process and set the recent searches data
+            setRecentSearches(recentSearchesData);
           }
-        } catch (error) {
-          console.error('Error fetching recent places:', error);
-        }
-      }
-    };
-
-    fetchRecentPlaces();
+        })
+        .catch(error => {
+          console.error('Error fetching recent searches:', error);
+        });
+    }
   }, [user]);
 
   if (!user) {
@@ -163,11 +152,11 @@ const WelcomeBack = ({ user }) => {
         We've missed you. Feel free to jump back into your previous
         searches and explore more adventures with us.
       </AdditionalText>
-      {recentPlaces.length > 0 && (
+      {recentSearches.length > 0 && (
         <>
           <RecentPlacesText>Jump back in</RecentPlacesText>
           <RecentPlaceContainer>
-            {recentPlaces.slice(0, 3).map((place, index) => (
+            {recentSearches.slice(0, 3).map((place, index) => (
               <RecentPlace key={index}>
                 <div>
                   <PlaceDescription>{place.description}</PlaceDescription>
