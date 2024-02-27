@@ -1,6 +1,6 @@
-
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-pZpSwQE57H4xx2AtAxMbs5RAD05Pr-k",
@@ -12,5 +12,20 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export default app;
+const auth = getAuth(app);
+
+export { auth }; // Export only auth
+
+export function writeUserData(userId, name, email, recentSearch) {
+  const db = getDatabase();
+  const reference = ref(db, 'users/' + userId);
+
+  // Check if items is an array before filtering
+  const filteredItems = Array.isArray(recentSearch) ? recentSearch.filter(recentSearch => recentSearch !== undefined) : [];
+
+  set(reference, {
+    username: name,
+    email: email,
+    items: filteredItems
+  });
+}

@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 const inter = Inter({ subsets: ["latin"] });
 import Navbar from "@/components/Navbar";
 import Slogan from "@/components/Slogan";
@@ -12,6 +12,7 @@ import Suggested from "@/components/Suggested";
 import Footer from "@/components/Footer";
 import SuggestedCountries from "@/components/SuggestedCountries";
 import SignUp from "@/components/SignUp";
+import { auth } from '../pages/firebase/firebaseConfig';
 
 const ParentContainer = styled.div`
   width: 100%;
@@ -43,9 +44,23 @@ const MainContent = styled.div`
 `;
 
 export default function Home() {
-  const isLoggedIn = true;
-  const userName = "John Doe";
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Listen for authentication state changes
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // User is signed in
+        setUser(user);
+      } else {
+        // No user is signed in
+        setUser(null);
+      }
+    });
+
+    // Cleanup function to unsubscribe from the listener when the component unmounts
+    return () => unsubscribe();
+  }, []); // Run only once when the component mounts
 
   return (
     <>

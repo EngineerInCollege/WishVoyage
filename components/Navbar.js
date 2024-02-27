@@ -1,10 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRouter } from "next/router"
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../pages/firebase/firebaseConfig";
 import { signOut } from 'firebase/auth';
-
+import { auth, writeUserData } from "../pages/firebase/firebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
 
 const Container = styled.div`
   position: relative;
@@ -38,7 +38,7 @@ const LogoBox = styled.div`
 
 const NavigationButtonHolder = styled.div`
   position: absolute;
-  left: 50%;
+  left: 45%;
   transform: translateX(-50%);
   display: flex;
   gap: 4vw;
@@ -147,31 +147,56 @@ const Dropdown = ({ title, items }) => {
 const Navbar = ({user, setUser}) => {
   const router = useRouter();
 
+  useEffect(() => {
+    // Check local storage for user authentication state
+    const loggedInUser = localStorage.getItem('user');
+    if (loggedInUser) {
+      setUser(JSON.parse(loggedInUser));
+    }
+  }, []); // Run only once on component mount
+
   function goToWantedPage(string) {
     router.push(`${string}`);
   }
 
-  const handleGoogle = async (e) => {
-    const provider = await new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        setUser(result.user); // Set the user state after sign-in
-      }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.customData.email;
-      });
+  const handleGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      setUser(result.user);
+      localStorage.setItem('user', JSON.stringify(result.user)); // Save user data to local storage
+        
+      const { uid, displayName, email } = result.user;
+      writeUserData(uid, displayName, email);
+      
+    } catch (error) {
+      console.error('Error signing in with Google:', error);
+    }
   };  
 
+  useEffect(() => {
+    // Check if user is signed in
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        // User is signed in, write user data
+        const { uid, displayName, email } = user;
+        await writeUserData(uid, displayName, email);
+      }
+    });
+  
+    // Clean up subscription
+    return () => unsubscribe();
+  }, []);  
+  
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      setUser(null); // Clear the user state after sign-out
+      setUser(null);
+      localStorage.removeItem('user'); // Remove user data from local storage
     } catch (error) {
       console.error('Error signing out:', error);
     }
   };
-  
 
   const destinationsItems = [
     { label: 'Africa', href: '/destinations/africa' },

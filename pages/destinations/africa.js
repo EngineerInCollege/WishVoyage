@@ -6,6 +6,7 @@ import WelcomeBack from "@/components/WelcomeBack";
 import Suggested from "@/components/Suggested";
 import Footer from "@/components/Footer";
 import News from "@/components/News";
+import React, { useState } from 'react';
 
 const PageContainer = styled.div`
   width: 100%;
@@ -74,8 +75,7 @@ const temporaryNews = {
 
 
 export default function Asia() {
-  const isLoggedIn = true; // Placeholder value, replace with actual logic
-  const userName = "John Doe"; // Placeholder value, replace with actual user name
+  const [user, setUser] = useState(null);
 
   return (
     <>
@@ -86,7 +86,7 @@ export default function Asia() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <PageContainer>
-        <Navbar />
+        <Navbar user={user} setUser={setUser}/>
         <BackgroundImage>
           <OverlayText>
             <LargeText>Africa</LargeText>

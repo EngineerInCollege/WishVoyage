@@ -1,28 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { auth } from "../pages/firebase/firebaseConfig";
+import { auth, db } from '../pages/firebase/firebaseConfig';
+import { getDatabase, ref, onValue } from "firebase/database";
 
-// Sample data for recent places
-const recentPlacesData = [
-  {
-    id: 1,
-    name: 'Place 1',
-    imageSrc: '/croatia.jpg',
-    description: 'Description of Place 1',
-  },
-  {
-    id: 2,
-    name: 'Place 2',
-    imageSrc: '/croatia.jpg',
-    description: 'Description of Place 2',
-  },
-  {
-    id: 3,
-    name: 'Place 3',
-    imageSrc: '/croatia.jpg',
-    description: 'Description of Place 3',
-  },
-];
 
 // Existing styled components for animations
 const fadeInAnimation = keyframes`
@@ -83,6 +63,7 @@ const RecentPlacesText = styled.p`
 `;
 
 const RecentPlaceContainer = styled.div`
+  margin-top: 2vw;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -124,12 +105,9 @@ const PlaceDescription = styled.p`
   margin-left: 5px;
 `;
 
-const RecentPlacesContainer = styled.div`
-  margin-top: 2vw;
-`;
-
 const WelcomeBack = ({ user }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [recentPlaces, setRecentPlaces] = useState([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -145,6 +123,32 @@ const WelcomeBack = ({ user }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const fetchRecentPlaces = async () => {
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        const userId = currentUser.uid;
+        const db = getDatabase();
+        const recentPlacesRef = ref(db, `users/${userId}/recentPlaces`);
+
+        try {
+          const snapshot = await get(recentPlacesRef);
+          if (snapshot.exists()) {
+            const data = snapshot.val();
+            const placesArray = Object.values(data);
+            setRecentPlaces(placesArray.slice(-3)); // Limit to last 3 places
+          } else {
+            setRecentPlaces([]);
+          }
+        } catch (error) {
+          console.error('Error fetching recent places:', error);
+        }
+      }
+    };
+
+    fetchRecentPlaces();
+  }, [user]);
+
   if (!user) {
     return null;
   }
@@ -159,23 +163,23 @@ const WelcomeBack = ({ user }) => {
         We've missed you. Feel free to jump back into your previous
         searches and explore more adventures with us.
       </AdditionalText>
-      <RecentPlacesContainer>
-        <RecentPlacesText>
-          Jump back in
-        </RecentPlacesText>
-        <RecentPlaceContainer>
-          {recentPlacesData.map(place => (
-            <RecentPlace key={place.id}>
-              <div>
-                <PlaceDescription>{place.description}</PlaceDescription>
-              </div>
-              <ImageWrapper>
-                <PlaceImage src={place.imageSrc} alt={place.name} />
-              </ImageWrapper>
-            </RecentPlace>
-          ))}
-        </RecentPlaceContainer>
-      </RecentPlacesContainer>
+      {recentPlaces.length > 0 && (
+        <>
+          <RecentPlacesText>Jump back in</RecentPlacesText>
+          <RecentPlaceContainer>
+            {recentPlaces.slice(0, 3).map((place, index) => (
+              <RecentPlace key={index}>
+                <div>
+                  <PlaceDescription>{place.description}</PlaceDescription>
+                </div>
+                <ImageWrapper>
+                  <PlaceImage src={place.imageSrc} alt={place.name} />
+                </ImageWrapper>
+              </RecentPlace>
+            ))}
+          </RecentPlaceContainer>
+        </>
+      )}
     </WelcomeBackContainer>
   );
 };

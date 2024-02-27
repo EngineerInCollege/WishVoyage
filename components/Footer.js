@@ -6,6 +6,7 @@ const FooterContainer = styled.footer`
   font-family: arial;
   background-color: #242323;
   color: #d6d4d4;
+  font-size: 1vw;
   padding-top: 4vw;
   padding-left: 6vw;
   padding-right: 6vw;
