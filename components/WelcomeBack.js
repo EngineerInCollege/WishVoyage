@@ -159,7 +159,7 @@ const WelcomeBack = ({ user }) => {
             {recentSearches.slice(0, 3).map((place, index) => (
               <RecentPlace key={index}>
                 <div>
-                  <PlaceDescription>{place.description}</PlaceDescription>
+                  <PlaceDescription>{place.title}</PlaceDescription>
                 </div>
                 <ImageWrapper>
                   <PlaceImage src={place.imageSrc} alt={place.name} />
