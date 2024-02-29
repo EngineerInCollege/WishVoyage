@@ -12,8 +12,8 @@ const blinkCaret = keyframes`
 `;
 
 const Slogan = styled.div`
-  font-size: 40px;
-  font-family: 'Times';
+  font-size: 3vw;
+  font-family: 'serif';
   overflow: hidden;
   white-space: nowrap;
   border-right: 2px solid transparent;

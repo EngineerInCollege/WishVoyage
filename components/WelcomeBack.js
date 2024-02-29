@@ -31,7 +31,7 @@ const WelcomeBackText = styled.div`
   color: white;
   font-family: 'serif';
   white-space: nowrap;
-  border-right: 2px solid transparent;
+  border-right: 1vw solid transparent;
   animation: ${({ isVisible }) => (isVisible ? fadeInAnimation : 'none')} 0.5s ease forwards;
 `;
 
@@ -57,7 +57,7 @@ const ItalicizedSpan = styled.span`
 const RecentPlacesText = styled.p`
   padding-top: 8vw;
   padding-bottom: 1vw;
-  font-size: 30px;
+  font-size: 2vw;
   font-family: 'serif';
   white-space: wrap;
 `;
@@ -82,7 +82,7 @@ const ImageWrapper = styled.div`
   height: 20vw; 
   overflow: hidden;
   position: relative;
-  border-radius: 20px;
+  border-radius: 2vw;
 `;
 
 const PlaceImage = styled.img`
@@ -98,11 +98,11 @@ const PlaceImage = styled.img`
 `;
 
 const PlaceDescription = styled.p`
-  font-size: 20px;
+  font-size: 1vw;
   text-align: left;
-  margin-top: 10px;
-  margin-bottom: 20px;
-  margin-left: 5px;
+  margin-top: 1vw;
+  margin-bottom: 1vw;
+  margin-left: 1vw;
 `;
 
 const WelcomeBack = ({ user }) => {

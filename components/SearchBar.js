@@ -23,7 +23,7 @@ const interests = [
 const SearchBarContainer = styled.div`
   font-family: 'Arial';
   position: absolute;
-  font-size: 0.75vw;
+  font-size: .75vw;
   top: 75%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -35,6 +35,7 @@ const SearchBarContainer = styled.div`
 `;
 
 const SearchInput = styled.input`
+  font-size: .75vw;
   padding: .5vw;
   border: none;
   border-radius: 1vw;

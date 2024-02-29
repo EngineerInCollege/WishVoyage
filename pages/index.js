@@ -34,13 +34,13 @@ const OverlayText = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  font-size: 25px;
+  font-size: 2vw;
   text-align: center;
 `;
 
 const MainContent = styled.div`
   flex: 1;
-  padding: 20px;
+  padding: 1vw;
 `;
 
 export default function Home() {
