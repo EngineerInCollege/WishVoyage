@@ -12,6 +12,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+export default app;
 const auth = getAuth(app);
 const db = getDatabase();
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { auth, db, fetchRecentSearches } from '../pages/firebase/firebaseConfig';
+import { auth, db, fetchRecentSearches } from '../firebase/firebaseConfig';
 import { getDatabase, ref, onValue } from "firebase/database";
 
 
@@ -75,6 +75,15 @@ const RecentPlace = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 30%;
+  background-color: white;
+  box-shadow: 0 0 1vw rgba(0, 0, 0, 0.1);
+  border-radius: 2vw;
+  overflow: hidden; /* Add overflow: hidden to clip content */
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 const ImageWrapper = styled.div`
@@ -82,7 +91,6 @@ const ImageWrapper = styled.div`
   height: 20vw; 
   overflow: hidden;
   position: relative;
-  border-radius: 2vw;
 `;
 
 const PlaceImage = styled.img`
@@ -90,19 +98,16 @@ const PlaceImage = styled.img`
   height: 100%;
   object-fit: cover;
   position: absolute;
-  transition: transform 0.3s ease;
-
-  ${RecentPlace}:hover & {
-    transform: scale(1.1); 
-  }
+  top: 0;
+  left: 0;
 `;
 
 const PlaceDescription = styled.p`
+  font-family: arial;
   font-size: 1vw;
   text-align: left;
-  margin-top: 1vw;
-  margin-bottom: 1vw;
-  margin-left: 1vw;
+  margin: 2vw;
+  color: black;
 `;
 
 const WelcomeBack = ({ user }) => {
@@ -156,7 +161,7 @@ const WelcomeBack = ({ user }) => {
         <>
           <RecentPlacesText>Jump back in</RecentPlacesText>
           <RecentPlaceContainer>
-            {recentSearches.slice(0, 3).map((place, index) => (
+            {recentSearches.slice(-3).reverse().map((place, index) => (
               <RecentPlace key={index}>
                 <div>
                   <PlaceDescription>{place.title}</PlaceDescription>

@@ -12,7 +12,7 @@ import Suggested from "@/components/Suggested";
 import Footer from "@/components/Footer";
 import SuggestedCountries from "@/components/SuggestedCountries";
 import SignUp from "@/components/SignUp";
-import { auth } from '../pages/firebase/firebaseConfig';
+import { auth } from '../firebase/firebaseConfig';
 
 const ParentContainer = styled.div`
   width: 100%;

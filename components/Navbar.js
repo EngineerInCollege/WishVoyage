@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useRouter } from "next/router"
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { signOut } from 'firebase/auth';
-import { auth, writeUserData } from "../pages/firebase/firebaseConfig";
+import { auth, writeUserData } from "../firebase/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 
 const Container = styled.div`

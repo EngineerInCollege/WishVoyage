@@ -87,8 +87,17 @@ export default function Asia() {
       </Head>
       <PageContainer>
         <Navbar user={user} setUser={setUser}/>
-       
-  
+        <BackgroundImage>
+          <OverlayText>
+            <LargeText>Africa</LargeText>
+            <SmallText>Explore the wonders of Africa</SmallText>
+          </OverlayText>
+        </BackgroundImage>
+        <MainContent>
+          <Suggested country="africa"/>
+          <News country="africa"></News>
+        </MainContent>
+        <Footer />
       </PageContainer>
     </>
   );

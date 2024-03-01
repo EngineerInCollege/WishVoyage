@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import firebase from '../pages/firebase/firebaseConfig'; 
-import { auth, db } from '../pages/firebase/firebaseConfig';
+import firebase from '../firebase/firebaseConfig'; 
+import { auth, db } from '../firebase/firebaseConfig';
 import { getDatabase, get, ref, set } from "firebase/database";
 
 const SuggestedPlacesContainer = styled.div`
@@ -142,10 +142,7 @@ const SuggestedPlaces = ({ country, lat, long }) => {
   
         // Add the latest click to the recent places array
         recentPlaces.push(place);
-  
-        // Limit the array to the last three clicks
-        recentPlaces = recentPlaces.slice(-3);
-  
+        
         // Update the recent places in the database
         await set(recentSearchesRef, recentPlaces);
   
