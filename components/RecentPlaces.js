@@ -60,7 +60,7 @@ const RecentPlaces = ({ places }) => {
 
 const RecentPlacesSection = () => {
 
-  const recentPlaces = recentPlacesData;
+ 
 
   return (
     <div>

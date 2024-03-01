@@ -1,10 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRouter } from "next/router"
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { signOut } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth, writeUserData } from "../firebase/firebaseConfig";
-import { onAuthStateChanged } from "firebase/auth";
+
+/* This code is for the navigation bar, consisting of the website logo, navigation buttons
+* for destinations and interests, and user authentication options (signing up or logging out).
+* The re-routing is done with Next.js router (useRouter) and this also uses local storage to store
+* user authentication state to maintain user sessions across page refreshes.
+*/
 
 const Container = styled.div`
   position: relative;
@@ -173,20 +177,6 @@ const Navbar = ({user, setUser}) => {
       console.error('Error signing in with Google:', error);
     }
   };  
-
-  // useEffect(() => {
-  //   // Check if user is signed in
-  //   const unsubscribe = onAuthStateChanged(auth, async (user) => {
-  //     if (user) {
-  //       // User is signed in, write user data
-  //       const { uid, displayName, email } = user;
-  //       await writeUserData(uid, displayName, email);
-  //     }
-  //   });
-  
-  //   // Clean up subscription
-  //   return () => unsubscribe();
-  // }, []);  
   
   const handleSignOut = async () => {
     try {

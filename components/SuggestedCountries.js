@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from "next/router";
 
+/* The code defines a footer component responsible for rendering a carousel of suggested countries.
+*  It includes country information such as name, background image, and description within each
+*  carousel slide. Users can navigate through the carousel using arrow buttons (PrevButton and NextButton) 
+*  to view different suggested countries. Also , clicking the "Explore" button directs users to the
+*  corresponding destination page (using useRouter). The component uses a useState hook to manage
+*  the current index of the displayed country.
+*/
+
 const SuggestedCountriesContainer = styled.div`
     font-family: arial;
     padding-top: 3vw;

@@ -2,6 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { useRouter } from "next/router";
 
+/* This is the footer component for the website. It includes sections for the logo, contact
+* info, sign-up, and navigation links to destinations and interests. Each section is styled
+* seperately for control over styling.
+*/
+
 const FooterContainer = styled.footer`
   font-family: arial;
   background-color: #242323;
@@ -138,7 +143,7 @@ const interestsItems = [
 const Footer = () => {
   const router = useRouter();
 
-  function goToWantedPage(string) { // Fix this
+  function goToWantedPage(string) {
     router.push(`${string}`);
   }
 

@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { auth, db, fetchRecentSearches } from '../firebase/firebaseConfig';
-import { getDatabase, ref, onValue } from "firebase/database";
+import { fetchRecentSearches } from '../firebase/firebaseConfig';
 
+/* This code defines a welcome back component, which is responsible for rendering a personalized
+*  welcome back div dispaleyd recent searches for a user. The component retrieves recent searches
+* from Firebase using the fetchRecentSearches function provided by the firebaseConfig. If recent
+* searches are available, the component displays them in a container, showing the title and image
+* of each searched place. The recent searches are displaeyd in reverse chronological order, with
+* only the three most recent searches shown. The component also includes scroll-based visibility
+* handling, which makes sure that the welcome back message and recent searches are only displayed
+* when they come into view during scrolling.
+*/
 
 // Existing styled components for animations
 const fadeInAnimation = keyframes`
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(3vw);
   }
   to {
     opacity: 1;
@@ -78,7 +86,7 @@ const RecentPlace = styled.div`
   background-color: white;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.1);
   border-radius: 2vw;
-  overflow: hidden; /* Add overflow: hidden to clip content */
+  overflow: hidden; 
   transition: transform 0.3s ease;
 
   &:hover {

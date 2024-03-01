@@ -2,6 +2,20 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
+/* This code is the component containing the latest news based on the provided country. This container
+   is divided into left and right sides, with larger (higher on the list) news items displayed
+   on the left and smaller (lower on the list) news items displayed on the right. This
+   component fetches news data using the Google Custom Search API to search for news related
+   to the specific country. The fetched news articles are displayed as clickable items with
+   titles, images, and a few characters of the article first paragraph (for the left-side
+    articles). The smaller news items are displayed with only titles.
+
+    This component also dynamically updates its content based on the selected country. Each news
+    item is linked to its source (in this case nytimes.com) for further reading.
+
+    As an aside, this code originally used the News API but was removed due to its paywall.
+*/
+
 const LatestNewsContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -112,7 +126,7 @@ const LargeNewsDescription = styled.div`
   max-height: 6vw;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: normal; /* Allow wrapping for multiple lines */
+  white-space: normal;
 `;
 
 const NewsHeader = styled.div`
@@ -148,7 +162,7 @@ const LatestNews = ({ country }) => {
   }, [country]);
 
   async function searchImages(country, count) {
-    const apiKey = 'AIzaSyAkn1b3j9ldUfqrrbO0zVGbhOgWySsZFA8';
+    const apiKey = 'AIzaSyDNgoacMe1_ghSIMVxIW8GbPHSOO1s3mog';
     const cx = '631d1d1a0d5d34b4d';
     const searchType = 'image';
     const site = "nytimes.com";
@@ -171,24 +185,25 @@ const LatestNews = ({ country }) => {
     }
   }
 
-  // Make api call to news api
-  async function getNewsData(country) {
-    setLoading(true); // Set loading boolean to true so that we know to show loading text
+  // This is the old API used to gather news. This was removed due to its paywall :(
+  // // Make api call to news api
+  // async function getNewsData(country) {
+  //   setLoading(true); // Set loading boolean to true so that we know to show loading text
 
-    try {
-      // Make news api call using axios with the provided country name
-      const resp = await axios.get(`https://newsapi.org/v2/everything?q=+${country}&language=en&sortBy=relevancy&pageSize=7&apiKey=46ecdb13102a4267b2efe3cb27c38a2d&pageSize=10`);
-      setNewsData(resp.data.articles); // Update state with the fetched news articles
-    } catch (error) {
-      console.error('Error fetching news:', error);
-    }
+  //   try {
+  //     // Make news api call using axios with the provided country name
+  //     const resp = await axios.get(`https://newsapi.org/v2/everything?q=+${country}&language=en&sortBy=relevancy&pageSize=7&apiKey=46ecdb13102a4267b2efe3cb27c38a2d&pageSize=10`);
+  //     setNewsData(resp.data.articles); // Update state with the fetched news articles
+  //   } catch (error) {
+  //     console.error('Error fetching news:', error);
+  //   }
 
-    setLoading(false); // Set loading boolean to false so that we know to show news articles
-  }
+  //   setLoading(false); // Set loading boolean to false so that we know to show news articles
+  // }
 
-  useEffect(() => {
-    searchImages(); // Call the getNewsData function when the component mounts or when the country prop changes
-  }, [country]);
+  // useEffect(() => {
+  //   searchImages(); // Call the getNewsData function when the component mounts or when the country prop changes
+  // }, [country]);
 
   return (
     <LatestNewsContainer>

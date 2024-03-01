@@ -1,6 +1,16 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, setPersistence } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { getDatabase, ref, set, get } from "firebase/database";
+
+/* This code sets up a Firebase app and exports it as a default module. It initializes the
+* Firebase app, the authentication, and database services using Firebase's modular SDK. The
+* writeUserData function is defined to write user data to the Firebase Realtime Database. It
+* takes user information such as the user ID, name, email, and recent search history as parameters
+* and stores them under the user's ID node in the database. The fetchRecentSearches function is
+* defined to retrieve recent searches for a given user ID from the database. It returns the
+* recent searches if they exist, otherwise returns null. The module exports the auth service
+* for authentication purposes.
+*/
 
 const firebaseConfig = {
   apiKey: "AIzaSyC-pZpSwQE57H4xx2AtAxMbs5RAD05Pr-k",

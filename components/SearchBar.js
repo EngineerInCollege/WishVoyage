@@ -2,6 +2,16 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useRouter } from "next/router"
 
+/* This code defines the search bar for allowing users to search for destinations or interests.
+*  It includes two dropdown menus for selecting destinations and interests, a text input
+*  field for manually typing search queries (while these are filtered to find existing pages),
+   and a search button. The handleInputChange function is responsible for updating the input
+   value, filtering suggestions, and updating the selected destination or interest based on
+   user input. The handleSearch function triggers the search action when the user clicks the
+   search button. It navigates the user to the corresponding destination or interest page
+   based on the selection made (using useRouter).
+*/
+
 const destinations = [
   { label: 'Africa', href: '#africa' },
   { label: 'Asia', href: '#asia' },
