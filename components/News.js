@@ -54,9 +54,9 @@ const RightSide = styled.div`
 
 const LargeNewsItem = styled.div`
   background-color: #f9f9f9;
-  padding: 1vw;
+  padding: 2vw;
   margin-bottom: 1vw;
-  height: 20vw;
+  height: auto;
   border-radius: 1vw;
   transition: background-color 0.3s, color 0.3s;
   &:hover {
@@ -109,6 +109,10 @@ const LargeNewsDescription = styled.div`
   margin-left: 1vw;
   color: #555;
   margin-top: 0.5vw;
+  max-height: 6vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; /* Allow wrapping for multiple lines */
 `;
 
 const NewsHeader = styled.div`
@@ -127,13 +131,53 @@ const LatestNews = ({ country }) => {
   const [newsData, setNewsData] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    async function fetchData() {
+      if (country) {
+        const newsResults = await searchImages(`${country} (current events)`, 8);
+        setNewsData(newsResults.map(result => ({
+          title: result.title,
+          imageSrc: result.link,
+          googleSearchLink: result.image.contextLink,
+          firstTwoSentences: result.snippet.split('.').slice(0, 3).join('.') + '.',
+        })));
+      }
+    }
+
+    fetchData();
+  }, [country]);
+
+  async function searchImages(country, count) {
+    const apiKey = 'AIzaSyAkn1b3j9ldUfqrrbO0zVGbhOgWySsZFA8';
+    const cx = '631d1d1a0d5d34b4d';
+    const searchType = 'image';
+    const site = "nytimes.com";
+
+    const url = `https://www.googleapis.com/customsearch/v1?q=${country}&cx=${cx}&searchType=${searchType}&num=${count}&key=${apiKey}&siteSearch=${site}`;
+
+
+    try {
+      const response = await axios.get(url);
+      setNewsData(response.data.items.map(item => ({
+        title: item.title,
+        link: item.link,
+        image: item.image,
+        snippet: item.snippet
+      })));
+      return response.data.items;
+    } catch (error) {
+      console.error('Error searching images:', error);
+      return [];
+    }
+  }
+
   // Make api call to news api
   async function getNewsData(country) {
     setLoading(true); // Set loading boolean to true so that we know to show loading text
 
     try {
       // Make news api call using axios with the provided country name
-      const resp = await axios.get(`https://newsapi.org/v2/everything?q=+${country} -war&language=en&sortBy=relevancy&pageSize=7&apiKey=46ecdb13102a4267b2efe3cb27c38a2d&pageSize=10`);
+      const resp = await axios.get(`https://newsapi.org/v2/everything?q=+${country}&language=en&sortBy=relevancy&pageSize=7&apiKey=46ecdb13102a4267b2efe3cb27c38a2d&pageSize=10`);
       setNewsData(resp.data.articles); // Update state with the fetched news articles
     } catch (error) {
       console.error('Error fetching news:', error);
@@ -143,7 +187,7 @@ const LatestNews = ({ country }) => {
   }
 
   useEffect(() => {
-    getNewsData(country); // Call the getNewsData function when the component mounts or when the country prop changes
+    searchImages(); // Call the getNewsData function when the component mounts or when the country prop changes
   }, [country]);
 
   return (
@@ -159,19 +203,19 @@ const LatestNews = ({ country }) => {
         <LeftSide>
             {newsData.slice(0,2).map((news, index) => (
               <LargeNewsItem>
-                <LargeNewsImage src={news.urlToImage} alt={news.title} />
-                <a key={index} href={news.url} target="_blank" rel="noopener noreferrer">
+                <LargeNewsImage src={news.imageSrc} alt={news.title} />
+                <a key={index} href={news.googleSearchLink} target="_blank" rel="noopener noreferrer">
                  <LargeNewsHeader>{news.title}</LargeNewsHeader>
                 </a>
-                  <LargeNewsDescription>{news.description}</LargeNewsDescription>
+                  <LargeNewsDescription>{news.firstTwoSentences}</LargeNewsDescription>
               </LargeNewsItem>
           ))}
         </LeftSide>
         <RightSide>
           {newsData.slice(2, 10).map((news, index) => (
-            <a key={index} href={news.url} target="_blank" rel="noopener noreferrer">
+            <a key={index} href={news.googleSearchLink} target="_blank" rel="noopener noreferrer">
               <SmallNewsItem>
-                <SmallNewsImage src={news.urlToImage} alt={news.title} />
+                <SmallNewsImage src={news.imageSrc} alt={news.title} />
                   <NewsHeader>{news.title}</NewsHeader>
               </SmallNewsItem>
             </a>

@@ -105,7 +105,7 @@ const SuggestedPlaces = ({ country, lat, long }) => {
   }, [country, lat, long]);
 
   async function searchImages(query, count) {
-    const apiKey = 'AIzaSyCwTDDQtuAcQ_1PjccWV5KQ7HjLkADJc84';
+    const apiKey = 'AIzaSyAkn1b3j9ldUfqrrbO0zVGbhOgWySsZFA8';
     const cx = '631d1d1a0d5d34b4d';
     const searchType = 'image';
 
