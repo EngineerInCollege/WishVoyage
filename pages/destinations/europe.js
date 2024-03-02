@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Suggested from "@/components/Suggested";
 import Footer from "@/components/Footer";
 import News from "@/components/News";
-import Activities from "@/components/Activities";
+import Activities from "@/components/Activites";
 import React, { useState } from 'react';
 
 /* The page for Europe. Includes a suggested places and news container.
