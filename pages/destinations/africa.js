@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Suggested from "@/components/Suggested";
 import Footer from "@/components/Footer";
 import News from "@/components/News";
+import Activites from "@/components/Activites";
 import React, { useState } from 'react';
 
 /* The page for Africa. Includes a suggested places and news container.

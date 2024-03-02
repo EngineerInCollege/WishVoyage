@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRouter } from "next/router";
+import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { auth, writeUserData } from "../firebase/firebaseConfig";
 
 /* This is the footer component for the website. It includes sections for the logo, contact
 * info, sign-up, and navigation links to destinations and interests. Each section is styled
@@ -147,6 +149,21 @@ const Footer = () => {
     router.push(`${string}`);
   }
 
+  const handleGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      setUser(result.user);
+      localStorage.setItem('user', JSON.stringify(result.user)); // Save user data to local storage
+        
+      const { uid, displayName, email } = result.user;
+      writeUserData(uid, displayName, email);
+      
+    } catch (error) {
+      console.error('Error signing in with Google:', error);
+    }
+  };  
+
   return (
     <FooterContainer>
       <LeftContainer>
@@ -164,7 +181,7 @@ const Footer = () => {
           </ContactInfoList>
         </Contact>
         <SignUp>Sign up and save your journey</SignUp>
-        <SignUpButton>Subscribe</SignUpButton>
+        <SignUpButton onClick={handleGoogle}>Subscribe</SignUpButton>
       </LeftContainer>
 
       <Divider />

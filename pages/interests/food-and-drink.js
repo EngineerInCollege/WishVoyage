@@ -4,10 +4,9 @@ import Navbar from "@/components/Navbar";
 import Suggested from "@/components/Suggested";
 import Footer from "@/components/Footer";
 import News from "@/components/News";
-import Activities from "@/components/Activities";
 import React, { useState } from 'react';
 
-/* The page for Europe. Includes a suggested places and news container.
+/* The page for Food and Drink. Includes a suggested activities.
 */
 
 const PageContainer = styled.div`
@@ -18,7 +17,7 @@ const BackgroundImage = styled.div`
   position: relative;
   width: 100%;
   height: 60vh;
-  background-image: url("/backgrounds/europebackgroundimage.jpg");
+  background-image: url("/backgrounds/foodanddrinkbackground.jpg");
   background-attachment: fixed; 
   background-size: cover;
   background-position: center;
@@ -50,14 +49,14 @@ const MainContent = styled.div`
   padding: 1vw;
 `;
 
-export default function Europe() {
+export default function FoodAndDrink() {
   const [user, setUser] = useState(null);
 
   return (
     <>
       <Head>
-        <title>WishVoyage - Europe</title>
-        <meta name="description" content="Explore Europe with WishVoyage" />
+        <title>WishVoyage - Food & Drink</title>
+        <meta name="description" content="Food and Drink" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -65,14 +64,12 @@ export default function Europe() {
         <Navbar user={user} setUser={setUser}/>
         <BackgroundImage>
           <OverlayText>
-            <LargeText>Europe</LargeText>
-            <SmallText>Emerse yourself in Europe</SmallText>
+            <LargeText>Food & Drink</LargeText>
+            <SmallText>Taste the wonders of the world</SmallText>
           </OverlayText>
         </BackgroundImage>
         <MainContent>
-          <Suggested country="europe"/>
-          <Activities lat="48.864716" long="2.349014"></Activities>
-          <News country="europe"></News>
+          <Suggested interest="food and drink"/>
         </MainContent>
         <Footer />
       </PageContainer>

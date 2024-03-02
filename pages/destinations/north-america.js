@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Suggested from "@/components/Suggested";
 import Footer from "@/components/Footer";
 import News from "@/components/News";
+import Activities from "@/components/Activites";
 import React, { useState } from 'react';
 
 /* The page for North America. Includes a suggested places and news container.
@@ -70,6 +71,7 @@ export default function NorthAmerica() {
         </BackgroundImage>
         <MainContent>
           <Suggested country="north america"/>
+          <Activities lat="40.730610" long="-73.935242"></Activities>
           <News country="north america"></News>
         </MainContent>
         <Footer />

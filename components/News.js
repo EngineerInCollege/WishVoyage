@@ -162,7 +162,7 @@ const LatestNews = ({ country }) => {
   }, [country]);
 
   async function searchImages(country, count) {
-    const apiKey = 'AIzaSyDNgoacMe1_ghSIMVxIW8GbPHSOO1s3mog';
+    const apiKey = 'AIzaSyDjIZcNffL1t7GoEjA20jKNc5XSU9Ky2_E';
     const cx = '631d1d1a0d5d34b4d';
     const searchType = 'image';
     const site = "nytimes.com";

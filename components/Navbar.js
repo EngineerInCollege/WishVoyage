@@ -191,7 +191,7 @@ const Navbar = ({user, setUser}) => {
   const destinationsItems = [
     { label: 'Africa', href: '/destinations/africa' },
     { label: 'Asia', href: '/destinations/asia' },
-    { label: 'Caribbean Islands', href: '/destinations/caribbean' },
+    { label: 'Caribbean Islands', href: '/destinations/caribbean-islands' },
     { label: 'Central America', href: '/destinations/central-america' },
     { label: 'Europe', href: '/destinations/europe' },
     { label: 'Middle East', href: '/destinations/middle-east' },
@@ -200,10 +200,10 @@ const Navbar = ({user, setUser}) => {
   ];
 
   const interestsItems = [
-    { label: 'Art & Culture', href: '/art-culture' },
-    { label: 'Food & Drink', href: '/food-drink' },
-    { label: 'History', href: '/history' },
-    { label: 'Wildlife & Nature', href: '/wildlife-nature' },
+    { label: 'Art & Culture', href: '/interests/art-and-culture' },
+    { label: 'Food & Drink', href: '/interests/food-and-drink' },
+    { label: 'History', href: '/interests/history' },
+    { label: 'Wildlife & Nature', href: '/interests/wildlife-and-nature' },
   ];
 
   return (

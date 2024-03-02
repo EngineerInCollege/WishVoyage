@@ -88,6 +88,7 @@ const RecentPlace = styled.div`
   border-radius: 2vw;
   overflow: hidden; 
   transition: transform 0.3s ease;
+  cursor: pointer;
 
   &:hover {
     transform: scale(1.05);
@@ -116,6 +117,11 @@ const PlaceDescription = styled.p`
   text-align: left;
   margin: 2vw;
   color: black;
+`;
+
+const RecentPlaceLink = styled.a`
+  text-decoration: none; 
+  color: inherit;
 `;
 
 const WelcomeBack = ({ user }) => {
@@ -170,14 +176,21 @@ const WelcomeBack = ({ user }) => {
           <RecentPlacesText>Jump back in</RecentPlacesText>
           <RecentPlaceContainer>
             {recentSearches.slice(-3).reverse().map((place, index) => (
-              <RecentPlace key={index}>
+              <RecentPlace>
+              <RecentPlaceLink
+                key={index}
+                href={place.googleSearchLink} 
+                target="_blank"
+                rel="noopener noreferrer"            
+              >
                 <div>
                   <PlaceDescription>{place.title}</PlaceDescription>
                 </div>
                 <ImageWrapper>
                   <PlaceImage src={place.imageSrc} alt={place.name} />
                 </ImageWrapper>
-              </RecentPlace>
+              </RecentPlaceLink>
+            </RecentPlace>
             ))}
           </RecentPlaceContainer>
         </>
